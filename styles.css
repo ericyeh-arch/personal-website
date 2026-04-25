@@ -224,6 +224,14 @@ h1 {
   font-weight: 800;
 }
 
+.avatar-image {
+  width: 92px;
+  height: 92px;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
 .info-list {
   list-style: none;
   padding: 0;
