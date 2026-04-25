@@ -36,16 +36,13 @@
     <main id="home" class="shell">
       <section class="hero card">
         <div class="hero-copy">
-          <p class="eyebrow">Resume / LinkedIn Style</p>
-          <h1>eric yeh</h1>
-          <p class="role">產品思維、視覺設計、前端開發</p>
-          <p class="lead">
-            我專注把產品需求整理成清楚、可靠且有質感的網站與介面，擅長介面設計、
-            前端實作與內容架構。
-          </p>
+          <p class="eyebrow" data-copy="eyebrow"></p>
+          <h1 data-copy="title"></h1>
+          <p class="role" data-copy="role"></p>
+          <p class="lead" data-copy="lead"></p>
           <div class="hero-actions">
-            <a class="button primary" href="#projects">查看作品</a>
-            <a class="button secondary" href="#contact">聯絡我</a>
+            <a class="button primary" href="#projects" data-copy="primaryCta"></a>
+            <a class="button secondary" href="#contact" data-copy="secondaryCta"></a>
           </div>
           <ul class="quick-facts">
             <li><span>地點</span><strong>台北，台灣</strong></li>
@@ -57,13 +54,13 @@
         <aside class="profile-panel">
           <img class="avatar-image" src="./avatar.svg" alt="eric yeh 個人數位照片" />
           <div class="profile-meta">
-            <h2>Professional Summary</h2>
-            <p>把設計、內容與技術整合成清楚好用的產品頁面。</p>
+            <h2 data-copy="summaryTitle"></h2>
+            <p data-copy="summaryBody"></p>
           </div>
           <div class="profile-tags">
-            <span>UI Design</span>
-            <span>Front-end</span>
-            <span>Content Structure</span>
+            <span data-copy="tag1"></span>
+            <span data-copy="tag2"></span>
+            <span data-copy="tag3"></span>
           </div>
         </aside>
       </section>
