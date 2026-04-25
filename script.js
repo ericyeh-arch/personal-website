@@ -140,6 +140,7 @@ const savedTheme = localStorage.getItem(themeKey) || "resume";
 applyTheme(savedTheme);
 
 themeSwitch.addEventListener("click", () => {
+  if (document.body.classList.contains("theme-fading")) return;
   const nextTheme = document.body.dataset.theme === "brand" ? "resume" : "brand";
   document.body.classList.add("theme-fading");
   window.setTimeout(() => {
