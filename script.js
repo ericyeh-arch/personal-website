@@ -1,24 +1,24 @@
 const skills = [
-  "網站設計",
+  "UI / UX 規劃",
   "前端開發",
-  "UI/UX 思考",
-  "內容策略",
-  "品牌視覺",
-  "專案整理",
+  "資訊架構",
+  "視覺設計",
+  "內容整理",
+  "專案協作",
 ];
 
 const projects = [
   {
     title: "作品集網站",
-    desc: "用單頁式結構呈現自我介紹與代表作品。",
+    desc: "以單頁式結構呈現個人背景、技能與作品摘要。",
   },
   {
     title: "產品頁優化",
-    desc: "調整資訊層級與 CTA，提升整體轉換效率。",
+    desc: "調整資訊層級與 CTA，提升閱讀效率與轉換動線。",
   },
   {
     title: "設計系統整理",
-    desc: "將重複元件抽象成可維護的設計規則。",
+    desc: "將重複元件抽象成可維護的元件與設計規則。",
   },
 ];
 
@@ -26,7 +26,7 @@ const skillsList = document.getElementById("skillsList");
 const projectsList = document.getElementById("projectsList");
 
 skillsList.innerHTML = skills
-  .map((skill) => `<article class="chip"><h3>${skill}</h3><p>可直接應用在網站與產品中。</p></article>`)
+  .map((skill) => `<article class="chip"><h3>${skill}</h3><p>適合個人網站、品牌頁與產品介面。</p></article>`)
   .join("");
 
 projectsList.innerHTML = projects
