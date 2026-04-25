@@ -26,6 +26,7 @@ const skillsList = document.getElementById("skillsList");
 const projectsList = document.getElementById("projectsList");
 const themeSwitch = document.getElementById("themeSwitch");
 const themeKey = "personal-website-theme";
+const themeTransitionMs = 220;
 const themeCopy = {
   resume: {
     eyebrow: "Resume / LinkedIn Style",
@@ -140,6 +141,10 @@ applyTheme(savedTheme);
 
 themeSwitch.addEventListener("click", () => {
   const nextTheme = document.body.dataset.theme === "brand" ? "resume" : "brand";
-  applyTheme(nextTheme);
-  localStorage.setItem(themeKey, nextTheme);
+  document.body.classList.add("theme-fading");
+  window.setTimeout(() => {
+    applyTheme(nextTheme);
+    localStorage.setItem(themeKey, nextTheme);
+    document.body.classList.remove("theme-fading");
+  }, themeTransitionMs);
 });

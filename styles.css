@@ -35,6 +35,7 @@ body {
   font-family: "Segoe UI", "Noto Sans TC", "PingFang TC", sans-serif;
   background: linear-gradient(180deg, #faf8f2 0%, #f3efe6 100%);
   overflow-x: hidden;
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
 body[data-theme="brand"] {
@@ -109,6 +110,26 @@ a {
   gap: 10px;
   cursor: pointer;
   box-shadow: var(--shadow);
+}
+
+.shell,
+.topbar,
+.footer,
+.card,
+.theme-switch {
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+body.theme-fading .shell,
+body.theme-fading .topbar,
+body.theme-fading .footer {
+  opacity: 0.55;
+  transform: translateY(4px);
 }
 
 .switch-track {
