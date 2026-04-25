@@ -128,12 +128,42 @@
         <p class="contact-copy" data-copy="contactBody"></p>
         <a class="button primary" href="mailto:ericyeh@ntsu.edu.tw" data-copy="contactCta"></a>
       </section>
+
+      <section id="guestbook" class="section card reveal guestbook">
+        <div class="section-heading">
+          <p class="eyebrow">Guestbook</p>
+          <h2>留言板</h2>
+        </div>
+        <form id="guestbookForm" class="guestbook-form">
+          <label>
+            <span>名字</span>
+            <input id="guestbookName" type="text" maxlength="40" placeholder="你的名字" required />
+          </label>
+          <label>
+            <span>留言內容</span>
+            <textarea
+              id="guestbookMessage"
+              maxlength="500"
+              rows="5"
+              placeholder="留下一段訊息"
+              required
+            ></textarea>
+          </label>
+          <button class="button primary" type="submit">送出留言</button>
+          <p id="guestbookStatus" class="guestbook-status" role="status" aria-live="polite"></p>
+        </form>
+        <div class="guestbook-list-head">
+          <h3>最新留言</h3>
+          <p>資料會即時同步到 Firestore。</p>
+        </div>
+        <div id="guestbookList" class="guestbook-list"></div>
+      </section>
     </main>
 
     <footer class="footer">
       <p>© 2026 eric yeh. All rights reserved.</p>
     </footer>
 
-    <script src="./script.js"></script>
+    <script type="module" src="./script.js"></script>
   </body>
 </html>

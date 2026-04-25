@@ -1,3 +1,15 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  addDoc,
+  collection,
+  getFirestore,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
 const skills = [
   "UI / UX 規劃",
   "前端開發",
@@ -25,8 +37,81 @@ const projects = [
 const skillsList = document.getElementById("skillsList");
 const projectsList = document.getElementById("projectsList");
 const themeSwitch = document.getElementById("themeSwitch");
+const guestbookForm = document.getElementById("guestbookForm");
+const guestbookName = document.getElementById("guestbookName");
+const guestbookMessage = document.getElementById("guestbookMessage");
+const guestbookStatus = document.getElementById("guestbookStatus");
+const guestbookList = document.getElementById("guestbookList");
 const themeKey = "personal-website-theme";
 const themeTransitionMs = 220;
+const firebaseConfig = {
+  apiKey: "AIzaSyC0uhEzc7ltB2a2xZdfWVrv9QQ1wc_8PPw",
+  authDomain: "test-a1db4.firebaseapp.com",
+  projectId: "test-a1db4",
+  storageBucket: "test-a1db4.firebasestorage.app",
+  messagingSenderId: "1087465474192",
+  appId: "1:1087465474192:web:0bfdfc8a2b48345c0af015",
+  measurementId: "G-QD3JN8S50C",
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const messagesRef = collection(db, "messages");
+
+const escapeHtml = (value) =>
+  value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+
+const formatRelativeTime = (date) => {
+  const diffMs = Date.now() - date.getTime();
+  const diffMinutes = Math.round(diffMs / 60000);
+  const absMinutes = Math.abs(diffMinutes);
+
+  if (absMinutes < 1) return "剛剛";
+  if (absMinutes < 60) return `${absMinutes} 分鐘前`;
+
+  const diffHours = Math.round(absMinutes / 60);
+  if (diffHours < 24) return `${diffHours} 小時前`;
+
+  const diffDays = Math.round(absMinutes / 1440);
+  if (diffDays < 7) return `${diffDays} 天前`;
+
+  return date.toLocaleDateString("zh-TW", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+};
+
+const setGuestbookStatus = (text, type = "info") => {
+  guestbookStatus.dataset.type = type;
+  guestbookStatus.textContent = text;
+};
+
+const renderGuestbook = (items) => {
+  if (!items.length) {
+    guestbookList.innerHTML = '<p class="guestbook-empty">還沒有留言，來當第一個吧。</p>';
+    return;
+  }
+
+  guestbookList.innerHTML = items
+    .map(
+      (item) => `
+        <article class="guestbook-entry">
+          <header>
+            <strong>${escapeHtml(item.name)}</strong>
+            <time datetime="${escapeHtml(item.iso)}" title="${escapeHtml(item.fullDate)}">${escapeHtml(item.relativeDate)}</time>
+          </header>
+          <p>${escapeHtml(item.message)}</p>
+        </article>
+      `,
+    )
+    .join("");
+};
+
 const themeCopy = {
   resume: {
     eyebrow: "Resume / LinkedIn Style",
@@ -138,6 +223,63 @@ const applyTheme = (theme) => {
 
 const savedTheme = localStorage.getItem(themeKey) || "resume";
 applyTheme(savedTheme);
+
+onSnapshot(query(messagesRef, orderBy("createdAt", "desc"), limit(20)), (snapshot) => {
+  const items = snapshot.docs.map((doc) => {
+    const data = doc.data();
+    const createdAt = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
+    return {
+      name: data.name || "匿名",
+      message: data.message || "",
+      iso: createdAt.toISOString(),
+      fullDate: createdAt.toLocaleString("zh-TW", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
+      relativeDate: formatRelativeTime(createdAt),
+    };
+  });
+
+  renderGuestbook(items);
+});
+
+guestbookForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const name = guestbookName.value.trim();
+  const message = guestbookMessage.value.trim();
+
+  if (!name || !message) {
+    setGuestbookStatus("請先填名字和留言內容。", "error");
+    return;
+  }
+
+  try {
+    const submittedAt = new Date();
+    await addDoc(messagesRef, {
+      name,
+      message,
+      createdAt: serverTimestamp(),
+    });
+    guestbookForm.reset();
+    setGuestbookStatus(
+      `留言已送出，時間：${submittedAt.toLocaleString("zh-TW", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      })}`,
+      "success",
+    );
+  } catch (error) {
+    console.error(error);
+    setGuestbookStatus("送出失敗，請確認 Firestore 規則與網路連線。", "error");
+  }
+});
 
 themeSwitch.addEventListener("click", () => {
   if (document.body.classList.contains("theme-fading")) return;
