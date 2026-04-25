@@ -78,6 +78,7 @@ a {
   backdrop-filter: blur(14px);
   z-index: 10;
   gap: 16px;
+  padding-right: 190px;
 }
 
 .brand {
@@ -110,8 +111,10 @@ a {
   gap: 10px;
   cursor: pointer;
   box-shadow: var(--shadow);
-  position: relative;
-  z-index: 11;
+  position: fixed;
+  top: 18px;
+  right: max(16px, calc((100vw - min(1120px, calc(100% - 32px))) / 2));
+  z-index: 30;
   pointer-events: auto;
   touch-action: manipulation;
 }
@@ -463,6 +466,15 @@ body[data-theme="brand"] .secondary {
 }
 
 @media (max-width: 900px) {
+  .theme-switch {
+    top: 14px;
+    right: 16px;
+  }
+
+  .topbar {
+    padding-right: 0;
+  }
+
   .hero,
   .about-grid {
     grid-template-columns: 1fr;
