@@ -24,6 +24,8 @@ const projects = [
 
 const skillsList = document.getElementById("skillsList");
 const projectsList = document.getElementById("projectsList");
+const themeSwitch = document.getElementById("themeSwitch");
+const themeKey = "personal-website-theme";
 
 skillsList.innerHTML = skills
   .map((skill) => `<article class="chip"><h3>${skill}</h3><p>適合個人網站、品牌頁與產品介面。</p></article>`)
@@ -49,3 +51,17 @@ const observer = new IntersectionObserver(
 );
 
 revealItems.forEach((item) => observer.observe(item));
+
+const applyTheme = (theme) => {
+  document.body.dataset.theme = theme;
+  themeSwitch.setAttribute("aria-pressed", String(theme === "brand"));
+};
+
+const savedTheme = localStorage.getItem(themeKey) || "resume";
+applyTheme(savedTheme);
+
+themeSwitch.addEventListener("click", () => {
+  const nextTheme = document.body.dataset.theme === "brand" ? "resume" : "brand";
+  applyTheme(nextTheme);
+  localStorage.setItem(themeKey, nextTheme);
+});

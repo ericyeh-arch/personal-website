@@ -10,6 +10,18 @@
   --shadow: 0 18px 40px rgba(33, 38, 43, 0.08);
 }
 
+body[data-theme="brand"] {
+  --bg: #1d1503;
+  --panel: rgba(44, 31, 7, 0.74);
+  --panel-strong: rgba(59, 42, 10, 0.94);
+  --text: #fff7df;
+  --muted: #d7c58b;
+  --accent: #ffd84d;
+  --accent-2: #ffb347;
+  --border: rgba(255, 219, 97, 0.16);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
 * { box-sizing: border-box; }
 
 html {
@@ -23,6 +35,13 @@ body {
   font-family: "Segoe UI", "Noto Sans TC", "PingFang TC", sans-serif;
   background: linear-gradient(180deg, #faf8f2 0%, #f3efe6 100%);
   overflow-x: hidden;
+}
+
+body[data-theme="brand"] {
+  background:
+    radial-gradient(circle at top left, rgba(255, 216, 77, 0.22), transparent 28%),
+    radial-gradient(circle at right 20%, rgba(255, 179, 71, 0.16), transparent 24%),
+    linear-gradient(160deg, #150f02 0%, #221703 45%, #322204 100%);
 }
 
 a {
@@ -57,6 +76,7 @@ a {
   top: 0;
   backdrop-filter: blur(14px);
   z-index: 10;
+  gap: 16px;
 }
 
 .brand {
@@ -68,11 +88,71 @@ a {
   display: flex;
   gap: 20px;
   color: var(--muted);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-left: auto;
 }
 
 .nav a:hover,
 .brand:hover {
   color: var(--text);
+}
+
+.theme-switch {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 8px 12px 8px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.switch-track {
+  width: 48px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(31, 35, 40, 0.08);
+  position: relative;
+  display: inline-block;
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  transition: transform 0.25s ease;
+}
+
+.switch-labels {
+  display: grid;
+  gap: 2px;
+  font-size: 0.72rem;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.label-dark {
+  color: var(--muted);
+}
+
+body[data-theme="brand"] .switch-thumb {
+  transform: translateX(20px);
+}
+
+body[data-theme="brand"] .label-light {
+  color: var(--muted);
+}
+
+body:not([data-theme="brand"]) .label-dark {
+  color: var(--muted);
 }
 
 .shell {
@@ -228,6 +308,25 @@ h1 {
   border-radius: 22px;
   object-fit: cover;
   box-shadow: 0 10px 24px rgba(33, 38, 43, 0.12);
+}
+
+body:not([data-theme="brand"]) .profile-panel,
+body:not([data-theme="brand"]) .about-card,
+body:not([data-theme="brand"]) .chip,
+body:not([data-theme="brand"]) .project {
+  background: rgba(255, 255, 255, 0.84);
+}
+
+body[data-theme="brand"] .bg-grid {
+  opacity: 0.12;
+}
+
+body[data-theme="brand"] .theme-switch {
+  background: rgba(59, 42, 10, 0.94);
+}
+
+body[data-theme="brand"] .secondary {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .section {
