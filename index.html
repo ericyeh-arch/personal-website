@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="個人網站，展示自我介紹、技能、作品與聯絡方式。"
+      content="?犖蝬脩?嚗?蝷箄??蝝嫘??賬????舐窗?孵???
     />
     <title>eric yeh | Resume</title>
     <link rel="stylesheet" href="./styles.css" />
@@ -16,11 +16,11 @@
     <header class="topbar">
       <a class="brand" href="#home">eric yeh</a>
       <nav class="nav">
-        <a href="#about">關於我</a>
-        <a href="#skills">技能</a>
-        <a href="#projects">作品</a>
-        <a href="#timeline">經歷</a>
-        <a href="#contact">聯絡</a>
+        <a href="#about">???/a>
+        <a href="#skills">???/a>
+        <a href="#projects">雿?</a>`r`n        <a href="#apps">Apps</a>
+        <a href="#timeline">蝬風</a>
+        <a href="#contact">?舐窗</a>`r`n        <a href="./maintenance/">維修系統</a>
       </nav>
       <button class="theme-switch" id="themeSwitch" type="button" aria-pressed="false">
         <span class="switch-track" aria-hidden="true">
@@ -43,14 +43,14 @@
             <a class="button secondary" href="#contact" data-copy="secondaryCta"></a>
           </div>
           <ul class="quick-facts">
-            <li><span>地點</span><strong>台北，台灣</strong></li>
-            <li><span>狀態</span><strong>開放合作</strong></li>
+            <li><span>?圈?</span><strong>?啣?嚗??/strong></li>
+            <li><span>???/span><strong>???</strong></li>
             <li><span>Email</span><strong>ericyeh@ntsu.edu.tw</strong></li>
           </ul>
         </div>
 
         <aside class="profile-panel">
-          <img class="avatar-image" src="./avatar.svg" alt="eric yeh 個人數位照片" />
+          <img class="avatar-image" src="./avatar.svg" alt="eric yeh ?犖?訾??抒?" />
           <div class="profile-meta">
             <h2 data-copy="summaryTitle"></h2>
             <p data-copy="summaryBody"></p>
@@ -89,7 +89,19 @@
         </div>
         <div class="project-grid" id="projectsList"></div>
       </section>
-
+      <section id="apps" class="section card reveal">
+        <div class="section-heading">
+          <p class="eyebrow">Apps</p>
+          <h2>網站應用</h2>
+        </div>
+        <article class="app-link-card">
+          <div>
+            <h3>維修系統</h3>
+            <p>工單管理、設備清單、派工排程與維修狀態追蹤頁面，已整合進這個網站專案。</p>
+          </div>
+          <a class="button primary" href="./maintenance/">打開系統</a>
+        </article>
+      </section>
       <section id="timeline" class="section card reveal">
         <div class="section-heading">
           <p class="eyebrow" data-copy="timelineEyebrow"></p>
@@ -132,36 +144,36 @@
       <section id="guestbook" class="section card reveal guestbook">
         <div class="section-heading">
           <p class="eyebrow">Guestbook</p>
-          <h2>留言板</h2>
+          <h2>????/h2>
         </div>
         <form id="guestbookForm" class="guestbook-form">
           <label>
-            <span>名字</span>
-            <input id="guestbookName" type="text" maxlength="40" placeholder="你的名字" required />
+            <span>??</span>
+            <input id="guestbookName" type="text" maxlength="40" placeholder="雿???" required />
           </label>
           <label>
-            <span>留言內容</span>
+            <span>???批捆</span>
             <textarea
               id="guestbookMessage"
               maxlength="500"
               rows="5"
-              placeholder="留下一段訊息"
+              placeholder="??銝畾菔???
               required
             ></textarea>
           </label>
-          <button class="button primary" type="submit">送出留言</button>
+          <button class="button primary" type="submit">???</button>
           <p id="guestbookStatus" class="guestbook-status" role="status" aria-live="polite"></p>
         </form>
         <div class="guestbook-list-head">
-          <h3>最新留言</h3>
-          <p>資料會即時同步到 Firestore。</p>
+          <h3>??啁?閮</h3>
+          <p>鞈????甇亙 Firestore??/p>
         </div>
         <div id="guestbookList" class="guestbook-list"></div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>© 2026 eric yeh. All rights reserved.</p>
+      <p>穢 2026 eric yeh. All rights reserved.</p>
     </footer>
 
     <script type="module" src="./script.js"></script>

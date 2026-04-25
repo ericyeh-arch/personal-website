@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="維修工單、設備清單、派工排程與統計儀表板。"
+    />
+    <title>維修系統</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">MS</div>
+          <div>
+            <h1>維修系統</h1>
+            <p>Maintenance Service Desk</p>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="../index.html">回首頁</a>
+          <a href="#dashboard">總覽</a>
+          <a href="#tickets">維修工單</a>
+          <a href="#assets">設備清單</a>
+          <a href="#schedule">今日排程</a>
+        </nav>
+        <section class="sidebar-card">
+          <h2>處理原則</h2>
+          <ul>
+            <li>即時回報故障</li>
+            <li>追蹤 SLA 狀態</li>
+            <li>保留維修紀錄</li>
+          </ul>
+        </section>
+      </aside>
+
+      <main class="main-content">
+        <header class="hero" id="dashboard">
+          <div>
+            <p class="eyebrow">服務中心</p>
+            <h2>設備維修與工單管理平台</h2>
+            <p class="hero-copy">
+              集中管理報修、設備狀態、技師排程與處理進度，適合企業內部 IT、工務與維保團隊。
+            </p>
+          </div>
+          <div class="hero-actions">
+            <button class="primary-button" type="button" data-open-ticket>新增工單</button>
+            <button class="secondary-button" type="button" data-scroll-assets>查看設備</button>
+          </div>
+        </header>
+
+        <section class="stats-grid">
+          <article class="stat-card">
+            <span>進行中工單</span>
+            <strong id="active-count">0</strong>
+            <small>等待處理與維修中</small>
+          </article>
+          <article class="stat-card">
+            <span>今日完成</span>
+            <strong id="done-count">0</strong>
+            <small>已結案工單</small>
+          </article>
+          <article class="stat-card">
+            <span>高優先等級</span>
+            <strong id="priority-count">0</strong>
+            <small>需優先派工</small>
+          </article>
+          <article class="stat-card">
+            <span>設備健康度</span>
+            <strong id="health-rate">0%</strong>
+            <small>正常運作設備比例</small>
+          </article>
+        </section>
+
+        <section class="panel-grid">
+          <section class="panel panel-wide" id="tickets">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">工單中心</p>
+                <h3>維修工單</h3>
+              </div>
+              <button class="primary-button" type="button" data-open-ticket>建立新工單</button>
+            </div>
+
+            <form class="ticket-form" id="ticket-form">
+              <div class="form-row">
+                <label>
+                  報修主旨
+                  <input type="text" id="ticket-title" placeholder="例如：三樓冷氣無法啟動" required />
+                </label>
+                <label>
+                  地點
+                  <input type="text" id="ticket-location" placeholder="例如：A 棟 3F 機房" required />
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  設備類型
+                  <select id="ticket-asset">
+                    <option value="空調">空調</option>
+                    <option value="監視系統">監視系統</option>
+                    <option value="網路設備">網路設備</option>
+                    <option value="電力系統">電力系統</option>
+                    <option value="辦公設備">辦公設備</option>
+                  </select>
+                </label>
+                <label>
+                  優先等級
+                  <select id="ticket-priority">
+                    <option value="一般">一般</option>
+                    <option value="高">高</option>
+                    <option value="緊急">緊急</option>
+                  </select>
+                </label>
+                <label>
+                  指派技師
+                  <input type="text" id="ticket-owner" placeholder="例如：王建宏" />
+                </label>
+              </div>
+              <label>
+                問題描述
+                <textarea
+                  id="ticket-description"
+                  rows="4"
+                  placeholder="輸入故障現象、影響範圍與補充資訊"
+                ></textarea>
+              </label>
+              <div class="form-actions">
+                <button class="primary-button" type="submit">送出工單</button>
+              </div>
+            </form>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>編號</th>
+                    <th>主旨</th>
+                    <th>地點</th>
+                    <th>設備</th>
+                    <th>優先</th>
+                    <th>狀態</th>
+                    <th>技師</th>
+                  </tr>
+                </thead>
+                <tbody id="ticket-table"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel" id="assets">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">資產管理</p>
+                <h3>設備清單</h3>
+              </div>
+            </div>
+            <div class="asset-list" id="asset-list"></div>
+          </section>
+
+          <section class="panel" id="schedule">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">派工資訊</p>
+                <h3>今日排程</h3>
+              </div>
+            </div>
+            <div class="schedule-list" id="schedule-list"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
