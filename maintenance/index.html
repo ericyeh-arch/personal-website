@@ -31,8 +31,8 @@
           <h2>處理原則</h2>
           <ul>
             <li>即時回報故障</li>
-            <li>追蹤 SLA 狀態</li>
-            <li>保留維修紀錄</li>
+            <li>追蹤工單 SLA</li>
+            <li>保留完整維修紀錄</li>
           </ul>
         </section>
       </aside>
@@ -56,7 +56,7 @@
           <article class="stat-card">
             <span>進行中工單</span>
             <strong id="active-count">0</strong>
-            <small>等待處理與維修中</small>
+            <small>待派工與處理中</small>
           </article>
           <article class="stat-card">
             <span>今日完成</span>
@@ -66,7 +66,7 @@
           <article class="stat-card">
             <span>高優先等級</span>
             <strong id="priority-count">0</strong>
-            <small>需優先派工</small>
+            <small>高與緊急工單</small>
           </article>
           <article class="stat-card">
             <span>設備健康度</span>
@@ -86,7 +86,7 @@
             </div>
 
             <form class="ticket-form" id="ticket-form">
-              <div class="form-row">
+              <div class="form-row form-row-2">
                 <label>
                   報修主旨
                   <input type="text" id="ticket-title" placeholder="例如：三樓冷氣無法啟動" required />
@@ -133,17 +133,41 @@
               </div>
             </form>
 
+            <div class="toolbar">
+              <label class="toolbar-field">
+                狀態篩選
+                <select id="filter-status">
+                  <option value="all">全部</option>
+                  <option value="待派工">待派工</option>
+                  <option value="處理中">處理中</option>
+                  <option value="已完成">已完成</option>
+                </select>
+              </label>
+              <label class="toolbar-field">
+                優先篩選
+                <select id="filter-priority">
+                  <option value="all">全部</option>
+                  <option value="一般">一般</option>
+                  <option value="高">高</option>
+                  <option value="緊急">緊急</option>
+                </select>
+              </label>
+              <label class="toolbar-field toolbar-search">
+                關鍵字
+                <input type="search" id="filter-keyword" placeholder="搜尋主旨、地點、技師" />
+              </label>
+            </div>
+
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
                     <th>編號</th>
-                    <th>主旨</th>
-                    <th>地點</th>
-                    <th>設備</th>
+                    <th>工單內容</th>
                     <th>優先</th>
                     <th>狀態</th>
-                    <th>技師</th>
+                    <th>指派</th>
+                    <th>操作</th>
                   </tr>
                 </thead>
                 <tbody id="ticket-table"></tbody>

@@ -2,12 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/fireba
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getFirestore,
   limit,
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp
+  serverTimestamp,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -33,6 +36,9 @@ const schedule = [
   { time: "14:30", task: "機房 UPS 月檢", engineer: "林志遠", level: "一般" }
 ];
 
+const statusOptions = ["待派工", "處理中", "已完成"];
+const priorityOptions = ["一般", "高", "緊急"];
+
 const ticketTable = document.querySelector("#ticket-table");
 const assetList = document.querySelector("#asset-list");
 const scheduleList = document.querySelector("#schedule-list");
@@ -41,9 +47,14 @@ const doneCount = document.querySelector("#done-count");
 const priorityCount = document.querySelector("#priority-count");
 const healthRate = document.querySelector("#health-rate");
 const ticketForm = document.querySelector("#ticket-form");
+const filterStatus = document.querySelector("#filter-status");
+const filterPriority = document.querySelector("#filter-priority");
+const filterKeyword = document.querySelector("#filter-keyword");
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const ticketsRef = collection(db, "maintenanceTickets");
+
 let tickets = [];
 
 const statusClass = (status) => {
@@ -58,62 +69,126 @@ const priorityClass = (priority) => {
   return "priority-normal";
 };
 
+const getFilteredTickets = () => {
+  const statusValue = filterStatus.value;
+  const priorityValue = filterPriority.value;
+  const keywordValue = filterKeyword.value.trim().toLowerCase();
+
+  return tickets.filter((ticket) => {
+    const statusMatch = statusValue === "all" || ticket.status === statusValue;
+    const priorityMatch = priorityValue === "all" || ticket.priority === priorityValue;
+    const keywordMatch =
+      !keywordValue ||
+      [ticket.code, ticket.title, ticket.location, ticket.owner, ticket.asset]
+        .join(" ")
+        .toLowerCase()
+        .includes(keywordValue);
+
+    return statusMatch && priorityMatch && keywordMatch;
+  });
+};
+
+const createOptions = (options, selectedValue) =>
+  options
+    .map(
+      (option) =>
+        `<option value="${option}" ${option === selectedValue ? "selected" : ""}>${option}</option>`
+    )
+    .join("");
+
 const renderTickets = () => {
-  if (!tickets.length) {
+  const filteredTickets = getFilteredTickets();
+
+  if (!filteredTickets.length) {
     ticketTable.innerHTML = `
       <tr>
-        <td colspan="7">目前還沒有工單，先建立第一筆維修紀錄。</td>
+        <td colspan="6" class="empty-state">目前沒有符合條件的工單。</td>
       </tr>
     `;
     return;
   }
 
-  ticketTable.innerHTML = tickets.map((ticket) => `
-    <tr>
-      <td>${ticket.code}</td>
-      <td>
-        <strong>${ticket.title}</strong>
-        <div class="asset-meta">${ticket.description}</div>
-      </td>
-      <td>${ticket.location}</td>
-      <td>${ticket.asset}</td>
-      <td><span class="priority-pill ${priorityClass(ticket.priority)}">${ticket.priority}</span></td>
-      <td><span class="status-pill ${statusClass(ticket.status)}">${ticket.status}</span></td>
-      <td>${ticket.owner || "未指派"}</td>
-    </tr>
-  `).join("");
+  ticketTable.innerHTML = filteredTickets
+    .map(
+      (ticket) => `
+        <tr>
+          <td>${ticket.code}</td>
+          <td>
+            <div class="ticket-main">
+              <div class="ticket-title">${ticket.title}</div>
+              <div class="ticket-meta">${ticket.location} ｜ ${ticket.asset}</div>
+              <div class="asset-meta">${ticket.description}</div>
+            </div>
+          </td>
+          <td><span class="priority-pill ${priorityClass(ticket.priority)}">${ticket.priority}</span></td>
+          <td>
+            <div class="inline-edit">
+              <span class="status-pill ${statusClass(ticket.status)}">${ticket.status}</span>
+              <select data-status-id="${ticket.id}">
+                ${createOptions(statusOptions, ticket.status)}
+              </select>
+            </div>
+          </td>
+          <td>
+            <div class="inline-edit">
+              <input type="text" value="${ticket.owner}" placeholder="未指派" data-owner-id="${ticket.id}" />
+              <button class="ghost-button action-button" type="button" data-save-owner="${ticket.id}">儲存指派</button>
+            </div>
+          </td>
+          <td>
+            <div class="inline-actions">
+              <button class="secondary-button action-button" type="button" data-save-status="${ticket.id}">更新狀態</button>
+              <button class="danger-button action-button" type="button" data-delete-id="${ticket.id}">刪除</button>
+            </div>
+          </td>
+        </tr>
+      `
+    )
+    .join("");
 };
 
 const renderAssets = () => {
-  assetList.innerHTML = assets.map((asset) => `
-    <article class="asset-item">
-      <h4>${asset.name}</h4>
-      <p class="asset-meta">負責單位：${asset.owner}</p>
-      <div class="asset-tags">
-        <span class="tag">狀態：${asset.status}</span>
-        <span class="tag">下次保養：${asset.next}</span>
-      </div>
-    </article>
-  `).join("");
+  assetList.innerHTML = assets
+    .map(
+      (asset) => `
+        <article class="asset-item">
+          <h4>${asset.name}</h4>
+          <p class="asset-meta">負責單位：${asset.owner}</p>
+          <div class="asset-tags">
+            <span class="tag">狀態：${asset.status}</span>
+            <span class="tag">下次保養：${asset.next}</span>
+          </div>
+        </article>
+      `
+    )
+    .join("");
 };
 
 const renderSchedule = () => {
-  scheduleList.innerHTML = schedule.map((item) => `
-    <article class="schedule-item">
-      <h4>${item.time} ${item.task}</h4>
-      <p class="schedule-meta">技師：${item.engineer}</p>
-      <div class="schedule-tags">
-        <span class="tag">優先：${item.level}</span>
-      </div>
-    </article>
-  `).join("");
+  scheduleList.innerHTML = schedule
+    .map(
+      (item) => `
+        <article class="schedule-item">
+          <h4>${item.time} ${item.task}</h4>
+          <p class="schedule-meta">技師：${item.engineer}</p>
+          <div class="schedule-tags">
+            <span class="tag">優先：${item.level}</span>
+          </div>
+        </article>
+      `
+    )
+    .join("");
 };
 
 const updateStats = () => {
   const active = tickets.filter((ticket) => ticket.status !== "已完成").length;
   const done = tickets.filter((ticket) => ticket.status === "已完成").length;
-  const priority = tickets.filter((ticket) => ticket.priority === "高" || ticket.priority === "緊急").length;
-  const healthy = Math.round((assets.filter((asset) => asset.status === "正常").length / assets.length) * 100);
+  const priority = tickets.filter(
+    (ticket) => ticket.priority === "高" || ticket.priority === "緊急"
+  ).length;
+  const healthy = Math.round(
+    (assets.filter((asset) => asset.status === "正常").length / assets.length) * 100
+  );
 
   activeCount.textContent = active;
   doneCount.textContent = done;
@@ -121,7 +196,6 @@ const updateStats = () => {
   healthRate.textContent = `${healthy}%`;
 };
 
-ticketForm.addEventListener("submit", (event) => {
 ticketForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -148,9 +222,61 @@ ticketForm.addEventListener("submit", async (event) => {
     ticketForm.reset();
   } catch (error) {
     console.error(error);
-    window.alert("工單寫入 Firestore 失敗，請確認資料庫權限設定。");
+    window.alert("工單寫入 Firestore 失敗，請確認資料庫規則。");
   }
 });
+
+ticketTable.addEventListener("click", async (event) => {
+  const saveStatusId = event.target.dataset.saveStatus;
+  const saveOwnerId = event.target.dataset.saveOwner;
+  const deleteId = event.target.dataset.deleteId;
+
+  if (saveStatusId) {
+    const statusSelect = ticketTable.querySelector(`[data-status-id="${saveStatusId}"]`);
+    if (!statusSelect) return;
+
+    try {
+      await updateDoc(doc(db, "maintenanceTickets", saveStatusId), {
+        status: statusSelect.value
+      });
+    } catch (error) {
+      console.error(error);
+      window.alert("更新狀態失敗。");
+    }
+  }
+
+  if (saveOwnerId) {
+    const ownerInput = ticketTable.querySelector(`[data-owner-id="${saveOwnerId}"]`);
+    if (!ownerInput) return;
+
+    try {
+      await updateDoc(doc(db, "maintenanceTickets", saveOwnerId), {
+        owner: ownerInput.value.trim()
+      });
+    } catch (error) {
+      console.error(error);
+      window.alert("更新指派技師失敗。");
+    }
+  }
+
+  if (deleteId) {
+    const confirmed = window.confirm("確定要刪除這筆工單嗎？");
+    if (!confirmed) return;
+
+    try {
+      await deleteDoc(doc(db, "maintenanceTickets", deleteId));
+    } catch (error) {
+      console.error(error);
+      window.alert("刪除工單失敗。");
+    }
+  }
+});
+
+[filterStatus, filterPriority].forEach((select) => {
+  select.addEventListener("change", renderTickets);
+});
+
+filterKeyword.addEventListener("input", renderTickets);
 
 document.querySelectorAll("[data-open-ticket]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -167,12 +293,13 @@ renderAssets();
 renderSchedule();
 
 onSnapshot(
-  query(ticketsRef, orderBy("createdAt", "desc"), limit(50)),
+  query(ticketsRef, orderBy("createdAt", "desc"), limit(100)),
   (snapshot) => {
-    tickets = snapshot.docs.map((doc) => {
-      const data = doc.data();
+    tickets = snapshot.docs.map((ticketDoc) => {
+      const data = ticketDoc.data();
       return {
-        code: data.code || `MT-${doc.id.slice(0, 6).toUpperCase()}`,
+        id: ticketDoc.id,
+        code: data.code || `MT-${ticketDoc.id.slice(0, 6).toUpperCase()}`,
         title: data.title || "未命名工單",
         location: data.location || "-",
         asset: data.asset || "-",
@@ -190,7 +317,7 @@ onSnapshot(
     console.error(error);
     ticketTable.innerHTML = `
       <tr>
-        <td colspan="7">讀取 Firestore 失敗，請確認資料庫已啟用且規則允許存取。</td>
+        <td colspan="6" class="empty-state">讀取 Firestore 失敗，請確認資料庫規則與索引設定。</td>
       </tr>
     `;
   }
