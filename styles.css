@@ -1,12 +1,12 @@
 :root {
-  --bg: #07111f;
-  --panel: rgba(10, 18, 34, 0.72);
-  --panel-strong: rgba(15, 25, 46, 0.94);
-  --text: #eef3ff;
-  --muted: #a8b3cf;
-  --accent: #7cf7d4;
-  --accent-2: #8fb7ff;
-  --border: rgba(255, 255, 255, 0.09);
+  --bg: #1d1503;
+  --panel: rgba(44, 31, 7, 0.74);
+  --panel-strong: rgba(59, 42, 10, 0.94);
+  --text: #fff7df;
+  --muted: #d7c58b;
+  --accent: #ffd84d;
+  --accent-2: #ffb347;
+  --border: rgba(255, 219, 97, 0.16);
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
 }
 
@@ -22,9 +22,9 @@ body {
   color: var(--text);
   font-family: "Segoe UI", "Noto Sans TC", "PingFang TC", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(143, 183, 255, 0.18), transparent 30%),
-    radial-gradient(circle at right 20%, rgba(124, 247, 212, 0.16), transparent 24%),
-    linear-gradient(160deg, #050b14 0%, #081120 45%, #0b1530 100%);
+    radial-gradient(circle at top left, rgba(255, 216, 77, 0.22), transparent 28%),
+    radial-gradient(circle at right 20%, rgba(255, 179, 71, 0.16), transparent 24%),
+    linear-gradient(160deg, #150f02 0%, #221703 45%, #322204 100%);
   overflow-x: hidden;
 }
 
@@ -44,7 +44,7 @@ a {
 .orb-one {
   width: 240px;
   height: 240px;
-  background: rgba(124, 247, 212, 0.18);
+  background: rgba(255, 216, 77, 0.22);
   top: 10%;
   left: -80px;
 }
@@ -52,7 +52,7 @@ a {
 .orb-two {
   width: 280px;
   height: 280px;
-  background: rgba(143, 183, 255, 0.16);
+  background: rgba(255, 179, 71, 0.18);
   right: -90px;
   top: 28%;
 }
@@ -163,7 +163,7 @@ h1 {
 
 .primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #07111f;
+  color: #2a1c02;
 }
 
 .secondary {
