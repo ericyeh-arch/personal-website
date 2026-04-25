@@ -10,18 +10,6 @@
   --shadow: 0 18px 40px rgba(33, 38, 43, 0.08);
 }
 
-body[data-theme="brand"] {
-  --bg: #1d1503;
-  --panel: rgba(44, 31, 7, 0.74);
-  --panel-strong: rgba(59, 42, 10, 0.94);
-  --text: #fff7df;
-  --muted: #d7c58b;
-  --accent: #ffd84d;
-  --accent-2: #ffb347;
-  --border: rgba(255, 219, 97, 0.16);
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-}
-
 * { box-sizing: border-box; }
 
 html {
@@ -35,14 +23,6 @@ body {
   font-family: "Segoe UI", "Noto Sans TC", "PingFang TC", sans-serif;
   background: linear-gradient(180deg, #faf8f2 0%, #f3efe6 100%);
   overflow-x: hidden;
-  transition: background 0.35s ease, color 0.35s ease;
-}
-
-body[data-theme="brand"] {
-  background:
-    radial-gradient(circle at top left, rgba(255, 216, 77, 0.22), transparent 28%),
-    radial-gradient(circle at right 20%, rgba(255, 179, 71, 0.16), transparent 24%),
-    linear-gradient(160deg, #150f02 0%, #221703 45%, #322204 100%);
 }
 
 a {
@@ -77,8 +57,6 @@ a {
   top: 0;
   backdrop-filter: blur(14px);
   z-index: 10;
-  gap: 16px;
-  padding-right: 190px;
 }
 
 .brand {
@@ -90,100 +68,11 @@ a {
   display: flex;
   gap: 20px;
   color: var(--muted);
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-left: auto;
 }
 
 .nav a:hover,
 .brand:hover {
   color: var(--text);
-}
-
-.theme-switch {
-  border: 1px solid var(--border);
-  background: var(--panel);
-  color: var(--text);
-  border-radius: 999px;
-  width: 96px;
-  height: 56px;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  position: fixed;
-  top: 14px;
-  right: max(16px, calc((100vw - min(1120px, calc(100% - 32px))) / 2));
-  z-index: 30;
-  pointer-events: auto;
-  touch-action: manipulation;
-}
-
-.shell,
-.topbar,
-.footer,
-.card,
-.theme-switch {
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease,
-    background 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease;
-}
-
-body.theme-fading .shell,
-body.theme-fading .topbar,
-body.theme-fading .footer {
-  opacity: 0.55;
-  transform: translateY(4px);
-}
-
-.switch-track {
-  width: 76px;
-  height: 40px;
-  border-radius: 999px;
-  background: rgba(31, 35, 40, 0.08);
-  position: relative;
-  display: inline-block;
-  pointer-events: none;
-  border: 1px solid var(--border);
-}
-
-.switch-thumb {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  transition: transform 0.25s ease;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
-}
-
-.switch-text {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-}
-
-.switch-text-left {
-  left: 12px;
-}
-
-.switch-text-right {
-  right: 12px;
-}
-
-body[data-theme="brand"] .switch-thumb {
-  transform: translateX(36px);
 }
 
 .shell {
@@ -341,25 +230,6 @@ h1 {
   box-shadow: 0 10px 24px rgba(33, 38, 43, 0.12);
 }
 
-body:not([data-theme="brand"]) .profile-panel,
-body:not([data-theme="brand"]) .about-card,
-body:not([data-theme="brand"]) .chip,
-body:not([data-theme="brand"]) .project {
-  background: rgba(255, 255, 255, 0.84);
-}
-
-body[data-theme="brand"] .bg-grid {
-  opacity: 0.12;
-}
-
-body[data-theme="brand"] .theme-switch {
-  background: rgba(59, 42, 10, 0.94);
-}
-
-body[data-theme="brand"] .secondary {
-  background: rgba(255, 255, 255, 0.06);
-}
-
 .section {
   padding: 28px 32px;
 }
@@ -403,22 +273,6 @@ body[data-theme="brand"] .secondary {
   border-radius: 20px;
   padding: 18px;
   background: rgba(255, 255, 255, 0.72);
-}
-
-.app-link-card {
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 22px;
-  background: rgba(255, 255, 255, 0.72);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.app-link-card h3,
-.app-link-card p {
-  margin-bottom: 8px;
 }
 
 .chip h3,
@@ -465,102 +319,6 @@ body[data-theme="brand"] .secondary {
   gap: 14px;
 }
 
-.guestbook {
-  display: grid;
-  gap: 18px;
-}
-
-.guestbook-form {
-  display: grid;
-  gap: 14px;
-  max-width: 680px;
-}
-
-.guestbook-form label {
-  display: grid;
-  gap: 8px;
-}
-
-.guestbook-form span {
-  font-weight: 600;
-}
-
-.guestbook-form input,
-.guestbook-form textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 14px 16px;
-  font: inherit;
-  color: var(--text);
-  background: var(--panel-strong);
-  outline: none;
-  resize: vertical;
-}
-
-.guestbook-form input:focus,
-.guestbook-form textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(184, 148, 29, 0.16);
-}
-
-.guestbook-status {
-  min-height: 1.25rem;
-  margin: 0;
-  color: var(--muted);
-}
-
-.guestbook-status[data-type="success"] {
-  color: #1f7a39;
-}
-
-.guestbook-status[data-type="error"] {
-  color: #b42318;
-}
-
-.guestbook-list-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.guestbook-list-head h3 {
-  margin: 0;
-}
-
-.guestbook-list-head p {
-  margin: 0;
-  color: var(--muted);
-}
-
-.guestbook-list {
-  display: grid;
-  gap: 12px;
-}
-
-.guestbook-entry,
-.guestbook-empty {
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.72);
-  padding: 16px;
-}
-
-.guestbook-entry header {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.guestbook-entry time {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
 .footer {
   padding: 12px 0 32px;
   color: var(--muted);
@@ -579,17 +337,6 @@ body[data-theme="brand"] .secondary {
 }
 
 @media (max-width: 900px) {
-  .theme-switch {
-    top: 12px;
-    right: 16px;
-    width: 88px;
-    height: 52px;
-  }
-
-  .topbar {
-    padding-right: 0;
-  }
-
   .hero,
   .about-grid {
     grid-template-columns: 1fr;
@@ -604,24 +351,6 @@ body[data-theme="brand"] .secondary {
     flex-wrap: wrap;
     justify-content: center;
   }
-
-  .switch-track {
-    width: 70px;
-    height: 36px;
-  }
-
-  .switch-thumb {
-    width: 28px;
-    height: 28px;
-  }
-
-  .switch-text-left {
-    left: 10px;
-  }
-
-  .switch-text-right {
-    right: 10px;
-  }
 }
 
 @media (max-width: 640px) {
@@ -633,13 +362,6 @@ body[data-theme="brand"] .secondary {
   .quick-facts,
   .profile-tags {
     grid-template-columns: 1fr;
-  }
-
-  .guestbook-entry header,
-  .guestbook-list-head,
-  .app-link-card {
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   .timeline li {
